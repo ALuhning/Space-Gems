@@ -46,7 +46,6 @@
 .left {
     text-align: start;
     margin-left: 15px;
-    display: inline-flex;
     justify-content: flex-start;
 }
 

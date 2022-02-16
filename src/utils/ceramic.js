@@ -17,7 +17,8 @@ import { definitionsSchema } from '../schemas/definitions'
 import { schemaSchema } from '../schemas/schemas'
 import { commentsSchema } from '../schemas/comments'
 import { notificationSchema } from '../schemas/notifications'
-import { metadataSchema } from '../schemas/metadata'
+import { spaceMetadataSchema } from '../schemas/spaceMetadata'
+import { buildingMetadataSchema } from '../schemas/buildingMetadata'
 
 import { config } from '../state/config'
 
@@ -184,10 +185,13 @@ class Ceramic {
   }
 
   async getCeramicWithSeed(seed) {
+    console.log('seed', seed)
     if (seed == undefined || seed == false){
       return false
     }
-    
+
+    const ceramic = new CeramicClient(CERAMIC_API_URL, {cacheDocCommits: true, docSyncEnabled: false, docSynchInterval: 30000})
+
     let authSecret = Buffer.from((seed).slice(0,32))
 
     const authId = 'NearAuthProvider'
@@ -422,8 +426,10 @@ class Ceramic {
     } else {
 
     // uncomment below to change a definition
-    // let changed = await this.changeDefinition(APP_OWNER_ACCOUNT, 'opportunities', legacyAppClient, opportunitiesSchema, 'opportunities to complete', contract)
-    // console.log('changed schema', changed)
+    //  let changed = await this.changeDefinition(APP_OWNER_ACCOUNT, 'spaceMetadata', appClient, spaceMetadataSchema, 'space metadata info', contract)
+    //  console.log('changed schema', changed)
+    //  let changed1 = await this.changeDefinition(APP_OWNER_ACCOUNT, 'buildingMetadata', appClient, buildingMetadataSchema, 'building metadata info', contract)
+    //  console.log('changed schema', changed1)
 
       const definitions = this.getAlias(APP_OWNER_ACCOUNT, 'Definitions', appClient, definitionsSchema, 'alias definitions', contract)
       const schemas = this.getAlias(APP_OWNER_ACCOUNT, 'Schemas', appClient, schemaSchema, 'user schemas', contract)
@@ -431,6 +437,8 @@ class Ceramic {
       const accountsKeys = this.getAlias(APP_OWNER_ACCOUNT, 'accountsKeys', appClient, accountKeysSchema, 'user account info', contract)
       const comments = this.getAlias(APP_OWNER_ACCOUNT, 'comments', appClient, commentsSchema, 'comments', contract)
       const notifications = this.getAlias(APP_OWNER_ACCOUNT, 'notifications', appClient, notificationSchema, 'notifications', contract)
+      const spaceProfile = this.getAlias(APP_OWNER_ACCOUNT, 'spaceMetadata', appClient, spaceMetadataSchema, 'space metadata info', contract)
+      const buildingProfile = this.getAlias(APP_OWNER_ACCOUNT, 'buildingMetadata', appClient, buildingMetadataSchema, 'building metadata info', contract)
       const done = await Promise.all([
         appDid, 
         definitions, 
@@ -438,7 +446,9 @@ class Ceramic {
         profile, 
         accountsKeys, 
         comments,
-        notifications
+        notifications,
+        spaceProfile,
+        buildingProfile
       ])
       
       let rootAliases = {
@@ -448,6 +458,8 @@ class Ceramic {
         accountsKeys: done[4],
         comments: done[5],
         notifications: done[6],
+        spaceProfile: done[7],
+        buildingProfile: done[8]
       }
 
       // cache aliases
@@ -479,17 +491,10 @@ class Ceramic {
     return appIdx
   }
 
-  async getSpaceIDX(seed, nftContract){
+  async getIDX(seed, appIdx){
     let client = await this.getCeramicWithSeed(seed)
-    let spaceProfile = this.getAlias(APP_OWNER_ACCOUNT, 'metadata', client, metadataSchema, 'space metadata info', nftContract)
-    const done = await Promise.all([
-      spaceProfile,
-    ])
-    let alias = {
-      spaceProfile: done[0]
-    }
-    let spaceIdx = new IDX({ ceramic: client, aliases: alias})
-    return spaceIdx
+    let idx = new IDX({ ceramic: client, aliases: appIdx._aliases})
+    return idx
   }
 
 

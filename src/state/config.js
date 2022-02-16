@@ -41,6 +41,7 @@ let config = {
     FACTORY_DEPOSIT: '2',
     TOKEN_FACTORY_DEPOSIT: '1',
     SPACE_CREATED: '__SPACE_CREATED',
+    BUILDING_CREATED: '__BUILDING_CREATED',
     APP_OWNER_ACCOUNT: 'vitalpointai.testnet',
     CERAMIC_API_URL: 'https://ceramic-node.vitalpointai.com',
     IPFS_PROVIDER: 'https://ipfs.io/ipfs/',
@@ -48,24 +49,26 @@ let config = {
     APPSEED_CALL: 'https://cdao.app/appseed',
     networkId: 'testnet',
     nodeUrl: 'https://rpc.testnet.near.org',
+   // nodeUrl: 'https://testnet-rpc.openshards.io',
     walletUrl: 'https://wallet.testnet.near.org',
     explorerUrl: 'https://explorer.testnet.near.org',
     nameSuffix: '.testnet',
     nftFactorySuffix: '.nft.vitalpointai.testnet',
     contractName: 'testnet',
     PLATFORM_SUPPORT_ACCOUNT: 'vitalpointai.testnet',
-    didRegistryContractName: 'dids1.vitalpointai.testnet',
+    didRegistryContractName: 'dids2.vitalpointai.testnet',
     nftFactoryContractName: 'nft.vitalpointai.testnet',
     ACCOUNT_HELPER_URL: 'https://near-contract-helper.onrender.com',
+    GRAPH_NFT_API_URL: 'https://api.thegraph.com/subgraphs/name/aluhning/space-gem',
     GRAPH_FACTORY_API_URL: 'https://api.thegraph.com/subgraphs/name/aluhning/catalyst-factory-tnet',
-    GRAPH_REGISTRY_API_URL: 'https://api.thegraph.com/subgraphs/name/aluhning/did-registry'
+    GRAPH_REGISTRY_API_URL: 'https://api.thegraph.com/subgraphs/name/aluhning/registry-tnet'
 }
 
 if(process.env.ENV === 'localhost') {
   config = {
     ...config,
-    TOKEN_CALL: 'http://localhost:3000/token',
-    APPSEED_CALL: 'http://localhost:3000/appseed',
+    TOKEN_CALL: 'http://localhost:3001/token',
+    APPSEED_CALL: 'http://localhost:3001/appseed',
   }
 }
 

@@ -53,6 +53,9 @@ pub struct NftMintLog {
     pub token_ids: Vec<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
+    pub token_type: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub memo: Option<String>,
 }
 
@@ -113,6 +116,7 @@ mod tests {
             event: EventLogVariant::NftMint(vec![NftMintLog {
                 owner_id: "foundation.near".to_owned(),
                 token_ids: vec!["aurora".to_string(), "proximitylabs".to_string()],
+                nft_type: "building".to_string(),
                 memo: None,
             }]),
         };

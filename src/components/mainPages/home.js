@@ -7,6 +7,7 @@ import SeedSetup from '../SeedSetup/seedSetup'
 import Header from '../../components/common/Header/header'
 import RandomPhrase from '../../components/common/RandomPhrase/randomPhrase'
 import Landing from '../../components/mainPages/landing'
+import LandingNotSignedIn from './landingNotSignedIn'
 import { KEY_REDIRECT } from '../../utils/ceramic'
 
 // Material UI & styling
@@ -62,7 +63,7 @@ export const Home = ({ children }) => {
         {finished ? 
             wallet && wallet.signedIn ?  
                 key ? (<SeedSetup />) : (<Landing />)
-            :  (<Landing />)
+            :  (<LandingNotSignedIn />)
             : state.accountData ? ({children}) 
             : (<>
                 <div className={classes.centered}>

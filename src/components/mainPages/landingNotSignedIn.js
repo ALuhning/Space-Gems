@@ -4,7 +4,7 @@ import ImageLoader from '../common/ImageLoader/imageLoader'
 import spaceGemLogo from '../../img/space-gem-logo-3.png'
 import office from '../../img/office.png'
 import parking from '../../img/parking.png'
-import map from '../../img/map.png'
+import { login } from '../../state/near'
 
 // Material UI Components
 import { makeStyles } from '@mui/styles'
@@ -26,9 +26,13 @@ const useStyles = makeStyles((theme) => ({
         paddingTop: 30, 
         paddingBottom: 60, 
     },
+    button: {
+        width: '80%',
+        fontSize: '40px'
+    }
 }));
 
-const Landing = () => {
+const LandingNotSignedIn = () => {
     const classes = useStyles()
     const matches = useMediaQuery('(max-width:500px)')
 
@@ -47,21 +51,22 @@ const Landing = () => {
                    Claim your Gem.
                 </Typography><br></br>
             </Grid>
-            <Grid item xs={6} sm={6} md={6} lg={6} xl={6} align="center">
-                <Link to="/reserve">
-                    <Typography variant="h6">Office</Typography>
-                    <ImageLoader image={office} style={{width:'70%'}}/>
-                </Link>
-            </Grid>
-                <Grid item xs={6} sm={6} md={6} lg={6} xl={6} align="center">
-                <Link to="/reserve">
-                    <Typography variant="h6">Parking</Typography>
-                    <ImageLoader image={parking} style={{width:'70%'}}/>
-                </Link>
-            </Grid>
             <Grid item xs={12} sm={12} md={12} lg={12} xl={12} align="center">
-                <Typography variant="h6" style={{marginTop: '30px'}}>Map Search</Typography>    
-                <ImageLoader image={map} style={{width:'25%'}}/>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                    onClick={login}
+                >
+                    <Typography variant="body1" style={{fontSize: '40px'}}>
+                        Get Started
+                    </Typography>
+                </Button>
+            </Grid>
+            <Grid item xs={12} sm={12} md={12} lg={12} xl={12} style={{marginTop: '40px', paddingLeft: '40px'}} align="center">
+                <Typography variant="body1" align="center">
+                    Space Gem directly connects space owners with people needing space for work or parking.  No middle person.  No fuss.
+                </Typography>
             </Grid>
         </Grid>
     :
@@ -77,21 +82,23 @@ const Landing = () => {
             Claim your Gem.
             </Typography><br></br>
         </Grid>
-        <Grid item xs={6} sm={6} md={6} lg={6} xl={6} align="center">
-            <Link to="/reserve">
-                <Typography variant="h6">Office</Typography>
-                <ImageLoader image={office} style={{width:'70%'}}/>
-            </Link>
-        </Grid>
-            <Grid item xs={6} sm={6} md={6} lg={6} xl={6} align="center">
-                <Link to="/reserve">
-                    <Typography variant="h6">Parking</Typography>
-                    <ImageLoader image={parking} style={{width:'70%'}}/>
-                </Link>
-        </Grid>
         <Grid item xs={12} sm={12} md={12} lg={12} xl={12} align="center">
-            <Typography variant="h6" style={{marginTop: '30px'}}>Map Search</Typography>
-            <ImageLoader image={map} style={{width:'25%'}}/>
+            <Button
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                onClick={login}
+            >
+                <Typography variant="body1" style={{fontSize: '40px'}}>
+                    Get Started
+                </Typography>
+            </Button>
+
+        </Grid>
+        <Grid item xs={12} sm={12} md={12} lg={12} xl={12} style={{marginTop: '40px', paddingLeft: '40px'}} align="center">
+            <Typography variant="body1" align="center">
+                Space Gem directly connects space owners with people needing space for work or parking.  No middle person.  No fuss.
+            </Typography>
         </Grid>
         </Grid>
     }    
@@ -99,4 +106,4 @@ const Landing = () => {
     )
 }
 
-export default Landing
+export default LandingNotSignedIn

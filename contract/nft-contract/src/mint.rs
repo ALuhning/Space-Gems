@@ -8,6 +8,8 @@ impl Contract {
         token_id: TokenId,
         metadata: TokenMetadata,
         receiver_id: AccountId,
+        // we add optional parameter to signal type of NFT
+        token_type: Option<String>,
         //we add an optional parameter for perpetual royalties
         perpetual_royalties: Option<HashMap<AccountId, u32>>,
     ) {
@@ -36,6 +38,8 @@ impl Contract {
             approved_account_ids: Default::default(),
             //the next approval ID is set to 0
             next_approval_id: 0,
+            //token type
+            token_type: Default::default(),
             //the map of perpetual royalties for the token (The owner will get 100% - total perpetual royalties)
             royalty,
         };
@@ -64,6 +68,8 @@ impl Contract {
                 owner_id: token.owner_id.to_string(),
                 // Vector of token IDs that were minted.
                 token_ids: vec![token_id.to_string()],
+                // Type of token
+                token_type: None,
                 // An optional memo to include.
                 memo: None,
             }]),

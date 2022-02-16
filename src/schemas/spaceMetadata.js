@@ -1,12 +1,12 @@
-export const metadataSchema = {
+export const spaceMetadataSchema = {
     $schema: 'http://json-schema.org/draft-07/schema#',
-    title: 'Metadata',
+    title: 'SpaceMetadata',
     type: 'object',
     properties: {
       tokenId: {
         type: 'string'
       },
-      title: {
+      name: {
         type: 'string',
       },
       media: {
@@ -40,6 +40,30 @@ export const metadataSchema = {
       },
       reference: {
         type: 'array'
+      },
+      location: {
+        type: 'object'
+      },
+      building: {
+        type: 'array'
+      },
+      characteristics: {
+        type: 'array'
+      },
+      spaceType: {
+        type: 'string'
+      },
+      capacity: {
+        type: 'number'
+      },
+      floor: {
+        type: 'number'
+      },
+      identifier: {
+        type: 'string'
+      },
+      status: {
+        type: 'string'
       },
     },
   }

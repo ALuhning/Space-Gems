@@ -1,10 +1,13 @@
 import React, {useState, useEffect, useContext} from 'react'
 import { appStore, onAppMount } from '../../../state/app'
+import { Link } from 'react-router-dom'
 import LeftSideDrawer from '../LeftSideDrawer/leftSideDrawer'
 import LogoutButton from '../LogoutButton/logoutButton'
 import LoginButton from '../LogInButton/loginButton'
 import AccountInfo from '../AccountInfo/accountInfo'
+import ImageLoader from '../ImageLoader/imageLoader'
 import Logo from '../Logo/logo'
+import logo from '../../../img/space-gem-logo-2.png'
 //import NotificationCard from '../Notifications/notifications'
 import {ceramic} from '../../../utils/ceramic'
 
@@ -84,25 +87,24 @@ const Header = ({ state, handleUpdate }) => {
         update('', {isUpdated: !isUpdated})
         setPopoverOpen(false)
     }
-
-
-    console.log('wallet', wallet)
     
     return (
         <div>
-        <Grid container justifyContent="space-between" alignItems="center" spacing={13} style={{paddingRight: '5px', paddingBottom: '5px', paddingLeft: '5px', paddingTop: '5px', backgroundColor: 'black'}}>
+        <Grid container justifyContent="space-between" alignItems="center" spacing={1} style={{paddingRight: '10px', paddingLeft: '10px', backgroundColor: 'black'}}>
             
             {wallet && wallet.signedIn ? 
                 (
                     <>
-                    <Grid item style={{marginLeft: '25px'}}>
+                    <Grid item>
                         <LeftSideDrawer
                         state={state}                        
-                        /> 
-                        <DiamondIcon style={{color: 'bb61e3', marginTop: '5px', fontSize: 45}} />
+                        />
+                        <Link to="/"> 
+                            <ImageLoader image={logo} style={{maxWidth: '150px'}}/>
+                        </Link>
                     </Grid>
                     <Grid item >
-                        {wallet && !wallet.signedIn ? <LoginButton /> :   <AccountInfo /> }
+                        {wallet && !wallet.signedIn ? <LoginButton style={{marginTop: '-5px'}}/> :   <LogoutButton style={{marginTop: '-5px'}}/> }
                     </Grid>
                     </>
                 ) 
@@ -110,24 +112,28 @@ const Header = ({ state, handleUpdate }) => {
             wallet && !wallet.signedIn ? 
                 !matches ? (
                     <>
-                    <Grid item style={{marginLeft: '25px'}}>
-                     <DiamondIcon style={{color: 'bb61e3', marginTop: '5px', fontSize: 45}}/>
+                    <Grid item>
+                    <Link to="/"> 
+                        <ImageLoader image={logo} style={{maxWidth: '150px'}}/>
+                    </Link>
                     </Grid>
                     <Grid item>
-                        {wallet && !wallet.signedIn ? <LoginButton /> :  <AccountInfo /> }
+                        {wallet && !wallet.signedIn ? <LoginButton style={{marginTop: '-5px'}}/> : <LogoutButton style={{marginTop: '-5px'}}/> }
                     </Grid>
                     </>
                 ) : (
                     <>
-                    <Grid item style={{marginLeft: '25px'}}>
+                    <Grid item>
                         <LeftSideDrawer
                             state={state}
                         
-                        /> 
-                        <DiamondIcon style={{color: 'bb61e3', marginTop: '5px', fontSize: 45}}/>
+                        />
+                        <Link to="/"> 
+                            <ImageLoader image={logo} style={{maxWidth: '150px'}}/>
+                        </Link>
                     </Grid>
                     <Grid item>
-                        {wallet && !wallet.signedIn ? <LoginButton /> :   <AccountInfo /> }
+                        {wallet && !wallet.signedIn ? <LoginButton /> :   <LogoutButton/> }
                     </Grid>
                     </>
                 ) 

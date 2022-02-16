@@ -8,7 +8,12 @@ import RandomPhrase from './components/common/RandomPhrase/randomPhrase'
 import NewKey from './components/mainPages/newKey'
 import Profile from './components/mainPages/profile'
 import Register from './components/mainPages/register'
+import AddSpace from './components/Spaces/createSpace'
+import AddBuilding from './components/Spaces/createBuilding'
+import Locations from './components/mainPages/locations'
+import DisplayIndivProfile from './components/mainPages/displayIndivProfile'
 import { KEY_REDIRECT } from './utils/ceramic'
+
 //import { Container } from './components/Container'
 //import { Receiver } from './components/Receiver'
 //import { PersonaPage } from './components/mainPages/personas'
@@ -146,11 +151,29 @@ const App = () => {
                 </Profile>
             </Route>
             <Route exact path="/register">
-                <Profile 
+                <Register
                     state={state}
                 >
                     { children }
-                </Profile>
+                </Register>
+            </Route>
+            <Route exact path="/define-space">
+                <AddSpace>
+                    { children }
+                </AddSpace>
+            </Route>
+            <Route exact path="/add-location">
+                <AddBuilding>
+                    { children }
+                </AddBuilding>
+            </Route>
+            <Route exact path="/reserve">
+                <Locations>
+                    { children }
+                </Locations>
+            </Route>
+            <Route path="/profile/:indivDid">
+                <DisplayIndivProfile />
             </Route>
         </div>
         <Footer />

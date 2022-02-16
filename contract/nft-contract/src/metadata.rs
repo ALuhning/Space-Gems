@@ -34,6 +34,7 @@ pub struct TokenMetadata {
     pub extra: Option<String>, // anything extra the NFT wants to store on-chain. Can be stringified JSON.
     pub reference: Option<String>, // URL to an off-chain JSON file with more info.
     pub reference_hash: Option<Base64VecU8>, // Base64-encoded sha256 hash of JSON from reference field. Required if `reference` is included.
+    pub spaceType: Option<String>, // space type
 }
 
 #[derive(BorshDeserialize, BorshSerialize)]
@@ -44,6 +45,8 @@ pub struct Token {
     pub approved_account_ids: HashMap<AccountId, u64>,
     //the next approval ID to give out. 
     pub next_approval_id: u64,
+    //the type of token
+    pub token_type: String,
     //keep track of the royalty percentages for the token in a hash map
     pub royalty: HashMap<AccountId, u32>,
 }

@@ -35,6 +35,11 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents'
 import SettingsIcon from '@mui/icons-material/Settings'
 import Badge from '@mui/material/Badge'
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital'
+import EventAvailableIcon from '@mui/icons-material/EventAvailable'
+import EmojiTransportationIcon from '@mui/icons-material/EmojiTransportation'
+import WorkspacesIcon from '@mui/icons-material/Workspaces'
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 
 const useStyles = makeStyles((theme) => ({
     list: {
@@ -188,14 +193,12 @@ const list = (anchor) => (
           <ListItemText primary='Dashboard'/>
         </ListItem>
       </Link>
-      <ListItem button key={7}>
-       
+      <ListItem button key={2}>
         <ListItemIcon>
           <Badge badgeContent={newNotifications} color='primary'>   
           <NotificationsIcon />
           </Badge>
         </ListItemIcon>
-        
         <ListItemText onClick={(e) => notificationsClick(e)} primary='Notifications'/>
       </ListItem>
     </List>
@@ -216,9 +219,15 @@ const list = (anchor) => (
     </List>
     <Divider />
     <Typography variant='h6'>Spaces</Typography>
-    <List>      
+    <List>
+    <Link to='/reserve'>
+        <ListItem className='reserveSpace' button key={5} onClick={(e) => addPersonaClick(e)}>
+            <ListItemIcon><SettingsIcon /></ListItemIcon>
+            <ListItemText primary='Reserve Space'/>
+        </ListItem>
+    </Link>
     <Link to='/add-space'>
-        <ListItem className='manageSpaces' button key={3} onClick={(e) => addPersonaClick(e)}>
+        <ListItem className='manageSpaces' button key={6} onClick={(e) => addPersonaClick(e)}>
             <ListItemIcon><SettingsIcon /></ListItemIcon>
             <ListItemText primary='Manage Spaces'/>
         </ListItem>
@@ -228,12 +237,12 @@ const list = (anchor) => (
     <Typography variant='h6'>Trove</Typography>
     <List>
       <Link to='/fts'>
-        <ListItem className='exploreTokens' button key={8}>
+        <ListItem className='exploreTokens' button key={7}>
           <ListItemIcon><ExploreIcon /></ListItemIcon>
           <ListItemText primary='Explore Tokens'/>
         </ListItem>
       </Link>
-      <ListItem className='createFT' button key={9} onClick={(e) => addFTClick(e)}>
+      <ListItem className='createFT' button key={8} onClick={(e) => addFTClick(e)}>
         <ListItemIcon><AddBoxIcon /></ListItemIcon>
         <ListItemText primary='Create Token'/>
       </ListItem>
@@ -255,24 +264,26 @@ const list = (anchor) => (
 
         <Typography variant='h6'>Account</Typography>
         <List>
-        <ListItem button key={2} onClick={(e) => editProfileClick(e)}>
-            <ListItemIcon><EditIcon /></ListItemIcon>
-            <ListItemText primary='Edit Profile'/>
+        <a href="https://mynear.xyz" target="_blank">
+        <ListItem button key={2}>
+            <ListItemIcon><ManageAccountsIcon /></ListItemIcon>
+            <ListItemText primary='Manage Profile'/>
         </ListItem>
-        <Link to='/setup'>
-          <ListItem className='recoverKey' button key={4}>
-          <ListItemIcon><LocalHospitalIcon /></ListItemIcon>
-          <ListItemText primary='Recover Profile'/>
+        </a>
+        <Link to={`/profile/${did}`}>
+          <ListItem className='viewProfile' button key={3}>
+          <ListItemIcon><AccountCircleIcon /></ListItemIcon>
+          <ListItemText primary='View Profile'/>
         </ListItem>
         </Link>
         <Link to={`/trove/${accountId}`}>
-        <ListItem button key={3} onClick={(e) => editProfileClick(e)}>
+        <ListItem button key={4} onClick={(e) => editProfileClick(e)}>
             <ListItemIcon><FavoriteIcon color="secondary" /></ListItemIcon>
             <ListItemText primary='My Trove'/>
         </ListItem>
         </Link>
         <Link to={`/gems/${accountId}`}>
-            <ListItem className='exploreTokens' button key={7}>
+            <ListItem className='exploreTokens' button key={5}>
             <ListItemIcon><DiamondIcon /></ListItemIcon>
             <ListItemText primary='My $GEMS'/>
             </ListItem>
@@ -281,17 +292,29 @@ const list = (anchor) => (
         <Divider />
 
         <Typography variant='h6'>Spaces</Typography>
-        <List>      
-        <Link to='/manage'>
-        <ListItem button key={5}>
-            <ListItemIcon><SettingsIcon /></ListItemIcon>
-            <ListItemText primary='Manage Spaces'/>
+        <List>
+        <Link to='/reserve'>
+        <ListItem button key={6}>
+            <ListItemIcon><EventAvailableIcon /></ListItemIcon>
+            <ListItemText primary='Reserve Space'/>
         </ListItem>
         </Link>
-        <Link to='/explore'>
-        <ListItem button key={6}>
-            <ListItemIcon><ExploreIcon /></ListItemIcon>
-            <ListItemText primary='Explore Spaces'/>
+        <Link to='/add-location'>
+        <ListItem button key={7}>
+            <ListItemIcon><EmojiTransportationIcon /></ListItemIcon>
+            <ListItemText primary='Add Locations'/>
+        </ListItem>
+        </Link>
+        <Link to='/define-space'>
+        <ListItem button key={8}>
+            <ListItemIcon><WorkspacesIcon /></ListItemIcon>
+            <ListItemText primary='Define Spaces'/>
+        </ListItem>
+        </Link>
+        <Link to='/manage'>
+        <ListItem button key={9}>
+            <ListItemIcon><SettingsIcon /></ListItemIcon>
+            <ListItemText primary='Manage Spaces'/>
         </ListItem>
         </Link>
         </List>
@@ -299,7 +322,7 @@ const list = (anchor) => (
         <Typography variant='h6'>Rewards</Typography>
         <List>
         <Link to='/gems'>
-            <ListItem className='exploreRewards' button key={7}>
+            <ListItem className='exploreRewards' button key={11}>
             <ListItemIcon><EmojiEventsIcon /></ListItemIcon>
             <ListItemText primary='Explore Rewards'/>
             </ListItem>
@@ -313,19 +336,19 @@ const list = (anchor) => (
     <Typography variant='h6' style={{marginTop:'50px'}}></Typography>
     <List>
     <a href='/'>
-      <ListItem button key={7}>
+      <ListItem button key={12}>
         <ListItemIcon><InfoIcon /></ListItemIcon>
         <ListItemText primary='About Space Gem'/>
       </ListItem>
     </a>
     <a href='/'>
-      <ListItem button key={9}>
+      <ListItem button key={13}>
         <ListItemIcon><SchoolIcon /></ListItemIcon>
         <ListItemText primary='Learn'/>
       </ListItem>
     </a>
     <a href='/'>
-      <ListItem button key={10}>
+      <ListItem button key={14}>
         <ListItemIcon><ContactSupportIcon /></ListItemIcon>
         <ListItemText primary='Contact'/>
       </ListItem>
