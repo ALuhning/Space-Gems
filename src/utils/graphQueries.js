@@ -75,7 +75,31 @@ const BUILDING_SPACES = gql`
         }
     }
 `
+const ALL_MINTS = `
+query{
+    ftmints(){
+        id
+        blockTime
+        action
+        amount
+        token
+        to
+    }
+}
+`
 
+const ALL_TRANSFERS = `
+query{
+    transfers(){
+        id
+        blockTime
+        action
+        amount
+        transferFrom
+        transferTo
+    }
+}
+`
 
 const factoryClient = new ApolloClient({
     uri: GRAPH_FACTORY_API_URL,
@@ -91,6 +115,8 @@ const nftClient = new ApolloClient({
     uri: GRAPH_NFT_API_URL,
     cache: new InMemoryCache(),
 })
+
+
     
 
 export default class Queries {
