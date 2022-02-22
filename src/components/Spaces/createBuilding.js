@@ -111,11 +111,10 @@ export default function AddBuilding(props) {
       const [buildingFloorplan, setBuildingFloorplan] = useState('')
       const [buildingDescription, setBuildingDescription] = useState(EditorState.createEmpty())
       
-      const [buildingImages, setBuildingImages] = useState([])
+     
       const [attachedImageFiles, setAttachedImageFiles] = useState([])
       const [addedImageFileHash, setAddedImageFileHash] = useState('QmZsKcVEwj9mvGfA7w7wUS1f2fLqcfzqdCnEGtdq6MBR7P')
-      
-      const [buildingMedia, setBuildingMedia] = useState([])
+
       const [attachedMediaFiles, setAttachedMediaFiles] = useState([])
       const [addedMediaFileHash, setAddedMediaFileHash] = useState('QmZsKcVEwj9mvGfA7w7wUS1f2fLqcfzqdCnEGtdq6MBR7P')
   
@@ -136,8 +135,27 @@ export default function AddBuilding(props) {
     const [buildingIcon, setBuildingIcon] = useState()
     const [buildingIconUrl, setBuildingIconUrl] = useState()
     const [avatarLoaded, setAvatarLoaded] = useState(true)
+    const [photoLoaded, setPhotoLoaded] = useState(true)
+    const [mediaLoaded, setMediaLoaded] = useState(true)
     const [progress, setProgress] = useState(false)
-    
+  
+       
+   const {
+      fields: buildingMedia,
+      append: buildingMediaAppend,
+      remove: buildingMmediaRemove} = useFieldArray({
+     name: "media",
+     control
+    })
+
+    const {
+      fields: buildingImages,
+      append: buildingImagesAppend,
+      remove: buildingImagesRemove} = useFieldArray({
+     name: "buildingImages",
+     control
+    })
+
     const {
       fields: amenitiesFields,
       append: amenitiesAppend,
@@ -199,6 +217,7 @@ export default function AddBuilding(props) {
     function handleFloorplanFileHash(hash) {
       setBuildingFloorplan(IPFS_PROVIDER + hash)
     }
+  
 
     function setCreateTrigger(tokenId, ceramicMetadata, did) {
       // set trigger for created space to update metadata on success
@@ -264,16 +283,26 @@ export default function AddBuilding(props) {
     function handleAvatarLoaded(property){
       setAvatarLoaded(property)
     }
-
+    function handlePhotoLoaded(property){
+      setPhotoLoaded(property)
+    }
+    function handlePhotoLoaded(property){
+      setPhotoLoaded(property)
+    }
+    function handleMediaLoaded(property){
+      setMediaLoaded(property)
+    }
     // Attached Image File Handlers
 
     function handleImageFileHash(hash, name) {
       let fullHash = IPFS_PROVIDER + hash
       let newAttachedImageFiles = { name: name, hash: fullHash }
       attachedImageFiles.push(newAttachedImageFiles)
-      setBuildingImages(attachedImageFiles)
-      setCeramicMetaData({...ceramicMetadata, 'images': attachedImageFiles})
+      buildingImagesAppend(newAttachedImageFiles)
+
+      setCeramicMetaData({...ceramicMetadata, 'images': buildingImages})
     }
+
   
     const captureImageFile = (i) => {
       console.log('here', i)
@@ -306,11 +335,12 @@ export default function AddBuilding(props) {
     function handleMediaFileHash(hash, name) {
       let fullHash = IPFS_PROVIDER + hash
       let newAttachedMediaFiles = { name: name, hash: fullHash }
-      attachedMediaFiles.push(newAttachedMediaFiles)
-      setBuildingMedia(attachedMediaFiles)
-      setCeramicMetaData({...ceramicMetadata, 'media': attachedMediaFiles})
+      buildingMediaAppend(newAttachedMediaFiles) 
+
+      setCeramicMetaData({...ceramicMetadata, 'media': buildingMedia})
     }
-  
+    
+
     const captureMediaFile = (i) => {
       console.log('here', i)
         event.stopPropagation()
@@ -350,6 +380,8 @@ export default function AddBuilding(props) {
         name: buildingName,
         description: draftToHtml(convertToRaw(buildingDescription.getCurrentContent())),
         amenities: amenities,
+        images: buildingImages,
+        media: buildingMedia,  
         floorplanURL: buildingFloorplan,
         buildingType: buildingType,
         address: addressValue,
@@ -522,6 +554,89 @@ export default function AddBuilding(props) {
             </Grid>
             </Paper>
           </Grid>
+          <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
+            <Paper style={{padding: '5px', marginTop: '20px'}}>
+              <Grid container direction='column' justifyContent="space-between" alignItems="flex-start"  style={{padding: '5px'}}>
+              
+                  <Typography variant="h6">Add Photos</Typography><br></br>
+                  {
+                  //list photos, have logic for removing them
+                  buildingImages.map((field, index) => {
+                  return(
+                  <Grid container>
+                    <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>      
+                    {/* return the name of each file added with an icon */}
+                      <Avatar
+                      src={field.hash}
+                      variant="square"
+                      className={photoLoaded ? classes.square : classes.hide}
+                      imgProps={{
+                        onLoad:(e) => { handlePhotoLoaded(true) }
+                      }}  
+                    />
+
+                    {
+                      progress ?
+                    <CircularProgress />
+                    : null }
+                    </Grid>
+                    <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
+                    <Button type="button" onClick={() => buildingImagesRemove(index)} style={{float: 'right', marginLeft:'10px'}}>
+                      <DeleteForeverIcon />
+                    </Button>
+                    </Grid>
+                  </Grid>
+                    )
+                  }) 
+                  }
+                  <FileUpload handleFileHash={handleImageFileHash} handleAvatarLoaded={handlePhotoLoaded}/>
+
+               
+                </Grid>
+            </Paper>
+            </Grid>
+          
+          <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
+            <Paper style={{padding: '5px', marginTop: '20px'}}>
+              <Grid container direction='column' justifyContent="space-between" alignItems="flex-start"  style={{padding: '5px'}}>
+              
+                  <Typography variant="h6">Add Media</Typography><br></br>
+                  {
+                  //list media + way to remove them
+                  buildingMedia.map((field, index) => {
+                  return(
+                  <Grid container>
+                    <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>      
+                    {/* return the name of each file added with an icon */}
+                      <Avatar
+                      src={field.hash}
+                      variant="square"
+                      className={mediaLoaded ? classes.square : classes.hide}
+                      imgProps={{
+                        onLoad:(e) => { handleMediaLoaded(true) }
+                      }}  
+                    />
+
+                    {
+                      progress ?
+                    <CircularProgress />
+                    : null }
+                    </Grid>
+                    <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
+                    <Button type="button" onClick={() => buildingMmediaRemove(index)} style={{float: 'right', marginLeft:'10px'}}>
+                      <DeleteForeverIcon />
+                    </Button>
+                    </Grid>
+                  </Grid>
+                    )
+                  }) 
+                  }
+                  <FileUpload handleFileHash={handleMediaFileHash} handleAvatarLoaded={handleMediaLoaded}/>
+
+               
+                </Grid>
+            </Paper>
+          </Grid>
           <Grid item xs={12} sm={12} md={4} lg={4} xl={4} align="center">
             {!clicked ? <Button
             disabled={clicked}
@@ -535,6 +650,7 @@ export default function AddBuilding(props) {
           </Grid>
       </Grid>
         </>
+      
     )
   
 }
